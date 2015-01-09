@@ -14,11 +14,11 @@ new CronJob('* * * * * *',
 
 job.start();
 */
- archive.downloadUrls(function(archive.urls){
-  console.log("URLS is: ", archive.urls);
+ archive.downloadUrls(function(urls){
+  console.log("URLS is: ", urls);
   // fs.writeFile(archive.paths.siteAssets+'/log.txt', 'TESTING', function(){});
   // fs.writeFile(archive.paths.siteAssets+'/log.txt', , function(){});
   // fs.writeFile(archive.paths.siteAssets+'/log.txt', 'blah', function(){});
 
-  fs.writeFile(archive.paths.siteAssets+'/log.txt', 'Number is: ' + Math.floor(Math.random()*50) + ' URLS is: ' + archive.urls[0], function(){});
+  fs.writeFile(archive.paths.siteAssets+'/log.txt', 'Number is: ' + Math.floor(Math.random()*50) + ' URLS is: ' + urls[0], function(){});
  });

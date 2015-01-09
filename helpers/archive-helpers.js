@@ -3,6 +3,7 @@ var path = require('path');
 var _ = require('underscore');
 var httpHelp = require('../web/http-helpers.js');
 var request = require('request');
+var httpreq = require('http-request');
 
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -109,14 +110,26 @@ exports.isURLArchived = function(url, res){
 };
 
 exports.downloadUrls = function(callback){
+  exports.readListOfUrls(function(data){
+    data.forEach(function(url){
+      httpreq.get('http://'+url, function (err, res) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        fs.writeFile(exports.paths.archivedSites+'/'+url, res.buffer.toString(),function(error){
+          if (error) console.log('error');
+        }))
+        //console.log(res.code, res.headers, res.buffer.toString());
+      });
+    })
+  })
+
+
   console.log(exports.urls);
   callback(exports.urls);
   while(exports.urls.length){
     request('http://'+exports.urls[0]).pipe(fs.createWriteStream(exports.paths.archivedSites+'/'+exports.urls[0]));
     exports.urls.shift();
   };
-  //urls.forEach(function(site){
-  //  request('http://'+site).pipe(fs.createWriteStream(exports.paths.archivedSites+'/'+site));
-  //});
-
 };
